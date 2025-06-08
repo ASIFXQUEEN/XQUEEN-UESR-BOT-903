@@ -7,7 +7,7 @@ pillow==9.2.0
 Unidecode
 git+https://github.com/badmunda98/py-trans.git
 git+https://github.com/badmunda98/pyrofork
-aiohttp==3.8.3
+aiohttp>=3.9.3
 gtts
 wget
 gpytranslate
