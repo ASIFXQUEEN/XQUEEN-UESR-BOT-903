@@ -1,11 +1,9 @@
 from asyncio.queues import QueueEmpty
 from pyrogram import filters
-from pytgcalls.exceptions import GroupCallNotFound
 
 from ... import *
 from ...modules.mongo.streams import *
 from ...modules.utilities import queues
-
 
 
 # Audio Player
@@ -55,10 +53,14 @@ async def audio_stream(client, message):
                     chat_id, file=file, type=type
                 )
                 await aux.edit(f"Queued At {position}")
-        except GroupCallNotFound:
-            stream = await run_stream(file, type)
-            await call.join_group_call(chat_id, stream)
-            await aux.edit("Playing!")
+        except Exception as e:
+            if "not joined" in str(e).lower():
+                stream = await run_stream(file, type)
+                await call.join_group_call(chat_id, stream)
+                await aux.edit("Playing!")
+            else:
+                print(f"Error: {e}")
+                return await aux.edit("**Please Try Again !**")
     except Exception as e:
        print(f"Error: {e}")
        return await aux.edit("**Please Try Again !**")
@@ -113,19 +115,19 @@ async def video_stream(client, message):
                     chat_id, file=file, type=type
                 )
                 await aux.edit(f"Queued At {position}")
-        except GroupCallNotFound:
-            stream = await run_stream(file, type)
-            await call.join_group_call(chat_id, stream)
-            await aux.edit("Playing!")
+        except Exception as e:
+            if "not joined" in str(e).lower():
+                stream = await run_stream(file, type)
+                await call.join_group_call(chat_id, stream)
+                await aux.edit("Playing!")
+            else:
+                print(f"Error: {e}")
+                return await aux.edit("**Please Try Again !**")
     except Exception as e:
        print(f"Error: {e}")
        return await aux.edit("**Please Try Again !**")
     except:
         return
-
-
-
-
 
 
 # Audio Player (Play From Anywhere)
@@ -180,10 +182,14 @@ async def audio_stream_(client, message):
                     chat_id, file=file, type=type
                 )
                 await aux.edit(f"Queued At {position}")
-        except GroupCallNotFound:
-            stream = await run_stream(file, type)
-            await call.join_group_call(chat_id, stream)
-            await aux.edit("Playing!")
+        except Exception as e:
+            if "not joined" in str(e).lower():
+                stream = await run_stream(file, type)
+                await call.join_group_call(chat_id, stream)
+                await aux.edit("Playing!")
+            else:
+                print(f"Error: {e}")
+                return await aux.edit("**Please Try Again !**")
     except Exception as e:
        print(f"Error: {e}")
        return await aux.edit("**Please Try Again !**")
@@ -242,15 +248,4 @@ async def video_stream_(client, message):
                 position = await queues.put(
                     chat_id, file=file, type=type
                 )
-                await aux.edit(f"Queued At {position}")
-        except GroupCallNotFound:
-            stream = await run_stream(file, type)
-            await call.join_group_call(chat_id, stream)
-            await aux.edit("Playing!")
-    except Exception as e:
-       print(f"Error: {e}")
-       return await aux.edit("**Please Try Again !**")
-    except:
-        return
-
-
+                await aux.edit(f"Queued At {
