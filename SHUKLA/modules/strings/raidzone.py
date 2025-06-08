@@ -126,14 +126,6 @@ GALIRAID = [
 
 LOVERAID = [
     "HATE ME I DONT CARE",
-    "💬 Tuma hasi ta emiti lage
-Jahele mana ta fuse hei jaye 😵‍💫⚡",
-    "🍬 Mitha katha ta sabu jane kahanti
-Kintu mu tume pain bhitare bhitare gulab jamun rakhi deli 😋💖",
-    "💞 Tuma aankhire dekhile,
-Mana ta silent mode re chali jaye... kahara awaj bhi sunu nai 📵👀",
-    "🤭 Tuma paain romantic line ta ready achhi 
-Tume jeunthi hasi dele sethi ru mora good day start heuchi 🌞🥰",
     "LEAVE ME I DONT CARE",
     "EK TU H TU H RHYGII",
     "TERE BIN MAR JAUNGA",
