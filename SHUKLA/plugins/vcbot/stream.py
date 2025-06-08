@@ -245,7 +245,5 @@ async def video_stream_(client, message):
             elif (a.status == "playing"
                 or a.status == "paused"
             ):
-                position = await queues.put(
-                    chat_id, file=file, type=type
-                )
-                await aux.edit(f"Queued At {
+                position = await queues.put(chat_id, file=file, type=type)
+await aux.edit(f"Queued At {position}")
