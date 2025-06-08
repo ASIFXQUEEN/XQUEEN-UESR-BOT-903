@@ -1,14 +1,14 @@
 {
-  "name": "SHUKLAUSERBOT",
-  "description": "SHUKLAUSERBOT is an advanced & powerful multi-featured Telegram userbot.",
-  "logo": "https://telegra.ph/file/7a2e0a67e160deb60e48b.jpg",
+  "name": "XQUEENXUSERBPT2.0",
+  "description": "XQUEENXUSERBOT is an advanced & powerful multi-featured Telegram userbot.",
+  "logo": "https://files.catbox.moe/lezquk.jpg",
   "keywords": [
     "SHUKLAUSERBOT",
     "telegram-userbot",
     "telegram-music-bot",
     "telegram-video-bot"
   ],
-  "repository": "https://github.com/ASIFXQUEEN/STRANGER-OPUSERBOT2.0",
+  "repository": "https://github.com/ASIFXQUEEN/XQUEEN-UESR-BOT-903",
   "env": {
     "API_ID": {
       "description": "Enter your api id here.",
