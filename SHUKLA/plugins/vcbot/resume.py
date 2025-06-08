@@ -1,7 +1,6 @@
 from ... import *
 from ...modules.mongo.streams import *
 from pyrogram import filters
-from pytgcalls.exceptions import GroupCallNotFound
 
 
 @app.on_message(cdx(["rsm", "resume"]) & ~filters.private)
@@ -17,10 +16,11 @@ async def resume_stream(client, message):
             await eor(message, "**Already Playing!**")
         elif a.status == "not_playing":
             await eor(message, "**Nothing Streaming!**")
-    except GroupCallNotFound:
-        await eor(message, "**I am Not in VC!**")
     except Exception as e:
-        print(f"Error: {e}")
+        if "not joined" in str(e).lower():
+            await eor(message, "**I am Not in VC!**")
+        else:
+            print(f"Error: {e}")
 
 
 @app.on_message(cdz(["crsm", "cresume"]))
@@ -29,9 +29,7 @@ async def resume_stream_chat(client, message):
     user_id = message.from_user.id
     chat_id = await get_chat_id(user_id)
     if chat_id == 0:
-        return await eor(message,
-            "**🥀 No Stream Chat Set❗**"
-    )
+        return await eor(message, "**🥀 No Stream Chat Set❗**")
     try:
         a = await call.get_call(chat_id)
         if a.status == "paused":
@@ -41,9 +39,8 @@ async def resume_stream_chat(client, message):
             await eor(message, "**Already Playing!**")
         elif a.status == "not_playing":
             await eor(message, "**Nothing Streaming!**")
-    except GroupCallNotFound:
-        await eor(message, "**I am Not in VC!**")
     except Exception as e:
-        print(f"Error: {e}")
-
-  
+        if "not joined" in str(e).lower():
+            await eor(message, "**I am Not in VC!**")
+        else:
+            print(f"Error: {e}")
