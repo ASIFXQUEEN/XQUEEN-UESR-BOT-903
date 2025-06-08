@@ -11,22 +11,22 @@ async def help_menu_logo(answer):
     if image:
         thumb_image = image
     else:
-        thumb_image = "https://files.catbox.moe/r58nec.jpg"
+        thumb_image = "https://files.catbox.moe/a0l6kq.jpg"
     button = paginate_plugins(0, plugs, "help")
     answer.append(
         InlineQueryResultPhoto(
             photo_url=f"{thumb_image}",
             title="💫 ʜᴇʟᴘ ᴍᴇɴᴜ  ✨",
             thumb_url=f"{thumb_image}",
-            description=f"🥀 Open Help Menu Of SHUKLAUSERBOT ✨...",
+            description=f"🥀 Open Help Menu Of QUEENUSERBOT ✨...",
             caption=f"""
             **💫 ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ʜᴇʟᴘ ᴍᴇɴᴜ ᴏᴘ.
-sʜᴜᴋʟᴀ ᴜsᴇʀʙᴏᴛ  » {__version__} ✨
+QUEEN USERBOT  » {__version__} ✨
  
 ❤️ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs ᴛᴏ
 ɢᴇᴛ ᴜsᴇʀʙᴏᴛ ᴄᴏᴍᴍᴀɴᴅs ❤️
  
-🌹ᴘᴏᴡᴇʀᴇᴅ ʙʏ ♡  [  ᴜᴘᴅᴀᴛᴇ ](https://t.me/SHIVANSH474) 🌹**""",
+🌹ᴘᴏᴡᴇʀᴇᴅ ʙʏ ♡  [  ᴜᴘᴅᴀᴛᴇ ](https://t.me/ARAME9) 🌹**""",
             reply_markup=InlineKeyboardMarkup(button),
         )
     )
@@ -46,7 +46,7 @@ sʜᴜᴋʟᴀ ᴜsᴇʀʙᴏᴛ  » {__version__} ✨
 ❤️ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs ᴛᴏ
 ɢᴇᴛ ᴜsᴇʀʙᴏᴛ ᴄᴏᴍᴍᴀɴᴅs ❤️
  
-🌹ᴘᴏᴡᴇʀᴇᴅ ʙʏ ♡  [ ᴜᴘᴅᴀᴛᴇ ](https://t.me/SHIVANSH474) 🌹**""",
+🌹ᴘᴏᴡᴇʀᴇᴅ ʙʏ ♡  [ ᴜᴘᴅᴀᴛᴇ ](https://t.me/ARAME9) 🌹**""",
             disable_web_page_preview=True
             ),
             reply_markup=InlineKeyboardMarkup(button),
