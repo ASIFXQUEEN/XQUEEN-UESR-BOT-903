@@ -43,33 +43,32 @@ def async_dirs():
     for file in os.listdir():
         if file.endswith(".session"):
             os.remove(file)
-    for file in os.listdir():
         if file.endswith(".session-journal"):
             os.remove(file)
     LOGGER.info("Directories Initialized.")
 
 async_dirs()
-    
+
 
 app = Client(
-    name = "SHUKLA",
-    api_id = API_ID,
-    api_hash = API_HASH,
-    session_string = STRING_SESSION,
+    name="SHUKLA",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=STRING_SESSION,
 )
 
 ass = Client(
-    name = "ShuklaPlayer",
-    api_id = API_ID,
-    api_hash = API_HASH,
-    session_string = SESSION_STRING,
+    name="ShuklaPlayer",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=SESSION_STRING,
 )
 
 bot = Client(
-    name = "ShuklaSUPPORT",
-    api_id = API_ID,
-    api_hash = API_HASH,
-    bot_token = BOT_TOKEN,
+    name="ShuklaSUPPORT",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN,
 )
 
 
@@ -83,12 +82,11 @@ def mongodbase():
     global mongodb
     try:
         LOGGER.info("Connecting To Your Database ...")
-        async_client = AsyncIOMotorClient
-        mongobase = async_client(MONGO_DB_URL)
+        mongobase = AsyncIOMotorClient(MONGO_DB_URL)  # ✅ Fixed line
         mongodb = mongobase.SHUKLA
-        LOGGER.info("Conected To Your Database.")
-    except:
-        LOGGER.error("Failed To Connect, Please Change Your Mongo Database !")
+        LOGGER.info("Connected To Your Database.")
+    except Exception as e:
+        LOGGER.error(f"Failed To Connect, Please Change Your Mongo Database ! Error: {e}")
         sys.exit()
 
 mongodbase()
@@ -102,7 +100,7 @@ async def sudo_users():
         for user_id in sudoers:
             SUDOERS.append(int(user_id))
     LOGGER.info(f"Sudo Users Loaded.")
-    
+
 
 async def run_async_clients():
     LOGGER.info("Starting Userbot ...")
@@ -117,6 +115,7 @@ async def run_async_clients():
         await app.join_chat("SHIVANSH474")
     except:
         pass
+
     if SESSION_STRING:
         LOGGER.info("Starting Assistant ...")
         await ass.start()
@@ -130,6 +129,7 @@ async def run_async_clients():
             await app.join_chat("SHIVANSH474")
         except:
             pass
+
     LOGGER.info("Starting Helper Robot ...")
     await bot.start()
     LOGGER.info("Helper Robot Started.")
@@ -137,9 +137,8 @@ async def run_async_clients():
         await bot.send_message(LOG_GROUP_ID, "**sʜᴜᴋʟᴀ ʀᴏʙᴏᴛ ɪs ᴀʟɪᴠᴇ.**")
     except:
         pass
+
     LOGGER.info("Starting PyTgCalls Client...")
     await call.start()
     LOGGER.info("PyTgCalls Client Started.")
     await sudo_users()
-    
-    
