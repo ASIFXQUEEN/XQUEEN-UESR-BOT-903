@@ -6,11 +6,11 @@ from ...modules.mongo.raidzone import *
 @sudo_users_only
 async def add_love_raid(client, message):
     try:
-        aux = await eor(message, "**🔄 Processing ...**")
+        aux = await eor(message, "**Tame bahut cute lagucha ...**")
         if not message.reply_to_message:
             if len(message.command) != 2:
                 return await aux.edit(
-                    "**🤖 Reply to a user's message or give username/user_id.**"
+                    "** Reply to a user's message or give username/user_id.**"
                 )
             user = message.text.split(None, 1)[1]
             if "@" in user:
@@ -28,10 +28,10 @@ async def add_love_raid(client, message):
         lraid = await add_loveraid_user(user_id)
         if lraid:
             return await aux.edit(
-                "**🤖 Successfully Added Love Raid On This User.**"
+                "**Tama prema re andha heigali ebe suna..**"
             )
         return await aux.edit(
-            "**🤖 Hey, Love Raid Already Active On This User❗**"
+            "**arledy pagala auu andha hei achi yanka premare**"
         )
     except Exception as e:
         print("Error: `{e}`")
@@ -44,11 +44,11 @@ async def add_love_raid(client, message):
 @sudo_users_only
 async def del_love_raid(client, message):
     try:
-        aux = await eor(message, "**🔄 Processing ...**")
+        aux = await eor(message, "**hau ruha jauchi...**")
         if not message.reply_to_message:
             if len(message.command) != 2:
                 return await aux.edit(
-                    "**🤖 Reply to a user's message or give username/user_id.**"
+                    "** Reply to a user's message or give username/user_id.**"
                 )
             user = message.text.split(None, 1)[1]
             if "@" in user:
@@ -66,10 +66,10 @@ async def del_love_raid(client, message):
         lraid = await del_loveraid_user(user_id)
         if lraid:
             return await aux.edit(
-                "**🤖 Successfully Removed Love Raid From This User.**"
+                "**Nahele nai eta katha kahili firbhi atitude hau jauchi mu bye.**"
             )
         return await aux.edit(
-            "**🤖 Hey, Love Raid Not Active On This User❗**"
+            "**yaku janini mu mitha katha aga lagao**"
         )
     except Exception as e:
         print("Error: `{e}`")
