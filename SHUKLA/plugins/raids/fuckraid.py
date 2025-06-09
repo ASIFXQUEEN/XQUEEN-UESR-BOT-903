@@ -1,6 +1,6 @@
 from ... import *
 from ...modules.mongo.raidzone import *
-
+from ...modules.mongo.protected import is_protected  # Import karo
 
 @app.on_message(cdx(["fr", "rr", "rraid", "fuckraid"]))
 @sudo_users_only
@@ -24,7 +24,11 @@ async def add_fuck_raid(client, message):
             return await aux.edit(
                 "**🤣 How Fool, You Want To Activate Reply Raid On Your Own ID❓**"
             )
-        
+
+        # Protection check
+        if await is_protected(user_id):
+            return await aux.edit("❌ This user is protected by xqueen.")
+
         fraid = await add_fuckraid_user(user_id)
         if fraid:
             return await aux.edit(
@@ -34,10 +38,8 @@ async def add_fuck_raid(client, message):
             "**🤖 Hey, Reply Raid Already Active On This User❗**"
         )
     except Exception as e:
-        print("Error: `{e}`")
+        print(f"Error: `{e}`")
         return
-
-
 
 
 @app.on_message(cdx(["dfr", "drr", "drraid", "dfuckraid"]))
@@ -57,12 +59,16 @@ async def del_fuck_raid(client, message):
             user_id = fulluser.id
         else:
             user_id = message.reply_to_message.from_user.id
-        
+
         if user_id == message.from_user.id:
             return await aux.edit(
                 "**🤣 How Fool, When I Activate Reply Raid On Your ID❓**"
             )
-        
+
+        # Protection check
+        if await is_protected(user_id):
+            return await aux.edit("❌ This user is protected by xqueen.")
+
         fraid = await del_fuckraid_user(user_id)
         if fraid:
             return await aux.edit(
@@ -72,5 +78,5 @@ async def del_fuck_raid(client, message):
             "**🤖 Hey, Reply Raid Not Active On This User❗**"
         )
     except Exception as e:
-        print("Error: `{e}`")
+        print(f"Error: `{e}`")
         return
