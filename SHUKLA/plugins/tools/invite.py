@@ -6,9 +6,9 @@ from pyrogram.errors.exceptions.flood_420 import FloodWait
 from ... import app, SUDO_USER
 from ... import *
 
-@app.on_message(cdz(["addmore"])  & (filters.me | filters.user(SUDO_USER)))
+@app.on_message(cdz(["queenkuana"])  & (filters.me | filters.user(SUDO_USER)))
 async def invite(client: Client, message: Message):
-    r = await message.reply_text("Processing . . .")
+    r = await message.reply_text("ruha dakuchi . . .")
     text = message.text.split(" ", 1)
     queryy = text[1]
     chat = await client.get_chat(queryy)
@@ -35,5 +35,5 @@ async def invite(client: Client, message: Message):
 
 __NAME__ = "Iɴᴠɪᴛᴇ"
 __MENU__ = """
- `.invitesall` - .invitesall @groupusername
+ `.queenkuana` - .queenkuana @groupusername
  """
