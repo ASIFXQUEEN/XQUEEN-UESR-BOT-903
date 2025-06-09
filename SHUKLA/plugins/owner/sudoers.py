@@ -7,7 +7,7 @@ from ...modules.mongo.sudoers import add_sudo, del_sudo
 @super_user_only
 async def add_sudo_user(client, message):
     try:
-        aux = await eor(message, "**🔄 Processing ...**")
+        aux = await eor(message, "**Hm sudo re add hauchi....**")
         if not message.reply_to_message:
             if len(message.command) != 2:
                 return await aux.edit(
@@ -62,22 +62,22 @@ async def del_sudo_user(client, message):
             user = user.replace("@", "")
         user = await app.get_users(user)
         if user.id not in SUDOERS:
-            return await message.edit("Not a part of Bot's Sudo.")
+            return await message.edit("Not a part  xqueen member.")
         removed = await del_sudo(user.id)
         if removed:
             SUDOERS.remove(user.id)
-            await message.edit("Removed from Bot's Sudo User")
+            await message.edit("Removed from xqueen Member User")
             return
         else:
             await message.edit(f"Something wrong happened.")
             return
     user_id = message.reply_to_message.from_user.id
     if user_id not in SUDOERS:
-        return await message.edit("Not a part of Bot's Sudo.")
+        return await message.edit("ye ta xqueen server ra member laguni.")
     removed = await del_sudo(user_id)
     if removed:
         SUDOERS.remove(user_id)
-        await message.edit("Removed from Bot's Sudo User")
+        await message.edit("baharigala xqueen member list ru")
         return
     else:
         await message.edit(f"Something wrong happened.")
