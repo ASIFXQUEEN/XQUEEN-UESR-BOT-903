@@ -1292,8 +1292,18 @@ async def santet(client: Client, message: Message):
 
 
 
-__NAME__ = " Aɴɪᴍᴀᴛɪᴏɴ "
+__NAME__ = "Animation"
 __MENU__ = """
-`.soon` - **soon....**
-
+`.heart` / `.love` - Animated heart love effect  
+`.loveyou` - Sends a random ASCII-style love message  
+`.wink` - Sends a wink anime video  
+`.hug` - Sends a hug anime video  
+`.pat` - Sends a pat anime video  
+`.pikachu` - Sends a pikachu image or video  
+`.hmm` - Sends a funny "hmm" animation text  
+`.ahh` - Sends a stretching "ahh" style message  
+`.brain` - Sends a brain-throwing animation  
+`.bomb` - Bomb drop and explosion animation  
+`.call` - Fun "calling Telegram CEO" animation  
+`.kill` - Funny “kill/fire” style text animation  
 """
