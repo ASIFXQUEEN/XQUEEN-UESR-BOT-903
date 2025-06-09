@@ -3,43 +3,33 @@ import textwrap
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import filters
 from pyrogram.types import Message
-from ... import app, SUDO_USER  # Update this if not 3-dot relative
+from ... import app, SUDO_USER
+
 
 @app.on_message(filters.command(["m", "mmf"], ".") & (filters.me | filters.user(SUDO_USER)))
 async def mmf(_, message: Message):
     chat_id = message.chat.id
-    reply = message.reply_to_message
+    reply_message = message.reply_to_message
+
+    if not reply_message or not reply_message.photo:
+        return await message.reply_text("**Reply to an image with `.mmf your_text` to create meme.**")
 
     if len(message.text.split()) < 2:
-        return await message.reply_text("**Give me text after /mmf to memify.**")
-
-    if not reply or not reply.media:
-        return await message.reply_text("**Reply to an image or sticker to memify.**")
+        return await message.reply_text("**Give me text after `.mmf` to memify.**\n\nExample: `.mmf Upper text ; Bottom text`")
 
     msg = await message.reply_text("**Memifying this image! ✊🏻**")
     text = message.text.split(None, 1)[1]
 
-    try:
-        file_path = await app.download_media(reply)
-    except Exception as e:
-        return await msg.edit(f"**Media download failed:** `{e}`")
+    file_path = await app.download_media(reply_message)
 
-    if not file_path:
-        return await msg.edit("**Couldn't download the media.**")
-
-    meme_path = await drawText(file_path, text)
-
-    if not os.path.exists(meme_path):
-        return await msg.edit("**Failed to create meme.**")
-
-    try:
-        await app.send_document(chat_id, document=meme_path)
-    except Exception as e:
-        await msg.edit(f"**Sending meme failed:** `{e}`")
-        return
+    meme = await drawText(file_path, text)
+    if meme:
+        await app.send_document(chat_id, document=meme)
+        os.remove(meme)
+    else:
+        await message.reply_text("Failed to generate meme 😔")
 
     await msg.delete()
-    os.remove(meme_path)
 
 
 async def drawText(image_path, text):
@@ -52,49 +42,59 @@ async def drawText(image_path, text):
 
     i_width, i_height = img.size
 
-    # Font setup
+    # Font Path
     if os.name == "nt":
         font_path = "arial.ttf"
     else:
         font_path = "./font/Montserrat.ttf"
 
+    font_size = int(i_height * 0.08)
     try:
-        m_font = ImageFont.truetype(font_path, int((70 / 640) * i_width))
+        m_font = ImageFont.truetype(font_path, font_size)
     except:
         m_font = ImageFont.load_default()
 
-    # Split upper/lower
     if ";" in text:
         upper_text, lower_text = text.split(";", 1)
     else:
         upper_text, lower_text = text, ""
 
     draw = ImageDraw.Draw(img)
-    current_h, pad = 10, 5
 
-    def draw_outlined_text(center_x, y, line, font, draw_obj):
-        w, h = draw_obj.textsize(line, font=font)
-        x = (center_x - w) / 2
-        shadow_color = (0, 0, 0)
-        text_color = (255, 255, 255)
+    def draw_centered_text(y, line):
+        text_width, text_height = draw.textsize(line, font=m_font)
+        x = (i_width - text_width) / 2
         # Outline
         for dx in [-2, 2]:
             for dy in [-2, 2]:
-                draw_obj.text((x + dx, y + dy), line, font=font, fill=shadow_color)
-        draw_obj.text((x, y), line, font=font, fill=text_color)
+                draw.text((x + dx, y + dy), line, font=m_font, fill="black")
+        # Main text
+        draw.text((x, y), line, font=m_font, fill="white")
 
-    # Top text
-    for line in textwrap.wrap(upper_text, width=15):
-        draw_outlined_text(i_width, int((current_h / 640) * i_width), line, m_font, draw)
-        current_h += m_font.getsize(line)[1] + pad
+    current_h = 20
+    wrap_chars = max(15, i_width // (font_size // 2))
+
+    # Upper text
+    for line in textwrap.wrap(upper_text.strip(), width=wrap_chars):
+        draw_centered_text(current_h, line)
+        current_h += font_size + 10
 
     # Bottom text
     if lower_text:
-        for line in textwrap.wrap(lower_text, width=15):
-            h_offset = m_font.getsize(line)[1]
-            y = i_height - h_offset - int((20 / 640) * i_width)
-            draw_outlined_text(i_width, y, line, m_font, draw)
+        lower_lines = textwrap.wrap(lower_text.strip(), width=wrap_chars)
+        total_height = len(lower_lines) * (font_size + 10)
+        current_h = i_height - total_height - 20
+        for line in lower_lines:
+            draw_centered_text(current_h, line)
+            current_h += font_size + 10
 
     output = "memify.webp"
     img.save(output, "webp")
     return output
+
+
+__NAME__ = "Mᴍғ"
+__MENU__ = """
+`.mmf` - **Make meme from an image.**\n
+**Usage:** Reply to image with `.mmf Your text here` or `.mmf Top ; Bottom`
+"""
