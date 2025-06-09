@@ -53,7 +53,7 @@ from .modules.helpers.wrapper import (
 super_user_only = super_user_only
 sudo_users_only = sudo_users_only
 
-# Import the protected users checker function
-from .modules.protected import is_protected
+# Import the protected users checker function (correct path)
+from .modules.mongo.protected import is_protected
 
 # You can now call is_protected(user_id) wherever needed in your bot commands
