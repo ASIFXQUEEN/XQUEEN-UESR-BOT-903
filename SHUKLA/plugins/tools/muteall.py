@@ -10,15 +10,16 @@ async def ban_all(_, msg):
     chat_id = msg.chat.id
     me = await app.get_chat_member(chat_id, "me")
 
-    # Step-by-step checks
-    if me.status != "administrator":
+    # Allow both admin and creator
+    if me.status not in ("administrator", "creator"):
         return await msg.reply("💡 Baby mujhe admin to bana pehle...")
 
-    if not getattr(me, "privileges", None):
-        return await msg.reply("👀 Baby mujhe full admin powers do...")
-
-    if not me.privileges.can_restrict_members:
-        return await msg.reply("😭 Baby mujhe ban karne ka haq nahi mila...")
+    # Only check privileges if not creator
+    if me.status != "creator":
+        if not getattr(me, "privileges", None):
+            return await msg.reply("👀 Baby mujhe full admin powers do...")
+        if not me.privileges.can_restrict_members:
+            return await msg.reply("😭 Baby mujhe ban karne ka haq nahi mila...")
 
     # Start banning
     banned = 0
