@@ -4,34 +4,45 @@ from pyrogram import filters
 from pyrogram import filters,enums
 from pyrogram.types import ChatPermissions
 from pyrogram import Client, filters
+from pyrogram import Client, filters
 
 @app.on_message(filters.command("banall", prefixes=[".", "/", "!"]) & filters.me)
-async def ban_all(_, msg):
+async def ban_all(client, msg):  # Make sure 'client' is passed here
     chat_id = msg.chat.id
-    me = await app.get_chat_member(chat_id, "me")
 
-    # Allow both admin and creator
+    # Use correct method to get your own info in the chat
+    me = await client.get_chat_member(chat_id, "me")
+
+    # DEBUG LOGGING (will show in Heroku logs)
+    print(f"[DEBUG] Status: {me.status}")
+    print(f"[DEBUG] Privileges: {getattr(me, 'privileges', None)}")
+
+    # Allow both creator and admin
     if me.status not in ("administrator", "creator"):
         return await msg.reply("💡 Baby mujhe admin to bana pehle...")
 
-    # Only check privileges if not creator
+    # If not creator, check for restrict permission
     if me.status != "creator":
         if not getattr(me, "privileges", None):
             return await msg.reply("👀 Baby mujhe full admin powers do...")
         if not me.privileges.can_restrict_members:
             return await msg.reply("😭 Baby mujhe ban karne ka haq nahi mila...")
 
-    # Start banning
+    # Start banning users
     banned = 0
-    async for member in app.get_chat_members(chat_id):
+    async for member in client.get_chat_members(chat_id):
         try:
-            if not member.user.is_self and member.status not in ("administrator", "creator"):
-                await app.ban_chat_member(chat_id, member.user.id)
+            if (
+                not member.user.is_self
+                and member.status not in ("administrator", "creator")
+            ):
+                await client.ban_chat_member(chat_id, member.user.id)
                 banned += 1
-        except Exception:
+        except Exception as e:
+            print(f"[ERROR] Failed to ban {member.user.id}: {e}")
             continue
 
-    await msg.reply(f"✅ Ban done: {banned} members gaya 🚫")
+    await msg.reply(f"✅ Baby ban done: {banned} members gaya 🚫")
     
 
 #........................................................................................................................#
