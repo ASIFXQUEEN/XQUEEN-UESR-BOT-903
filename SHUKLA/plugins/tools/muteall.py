@@ -3,20 +3,20 @@ from ... import *
 from pyrogram import filters
 from pyrogram import filters,enums
 from pyrogram.types import ChatPermissions
-from pyrogram import Client
+from pyrogram import Client, filters
 
 @app.on_message(filters.command("banall") & filters.me)
 async def ban_all(_, msg):
     chat_id = msg.chat.id
     me = await app.get_chat_member(chat_id, "me")
 
-    if not me.can_restrict_members:
+    # Fix for permission check
+    if me.status != "administrator" or not me.privileges or not me.privileges.can_restrict_members:
         return await msg.reply("𝐁𝐀𝐁𝐘 𝐌𝐄𝐑𝐄 𝐏𝐀𝐒 𝐁𝐀𝐍 𝐊𝐀 𝐏𝐄𝐑𝐌 𝐍𝐇𝐈𝐇 𝐇𝐄 😔")
 
     banned = 0
     async for member in app.get_chat_members(chat_id):
         try:
-            # Na khud ko ban kare, na dusre admins ko
             if not member.user.is_self and member.status not in ("administrator", "creator"):
                 await app.ban_chat_member(chat_id, member.user.id)
                 banned += 1
