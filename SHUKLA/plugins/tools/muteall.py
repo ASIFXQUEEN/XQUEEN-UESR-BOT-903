@@ -3,23 +3,27 @@ from ... import *
 from pyrogram import filters
 from pyrogram import filters,enums
 from pyrogram.types import ChatPermissions
+from pyrogram import Client
 
+@app.on_message(filters.command("banall") & filters.me)
+async def ban_all(_, msg):
+    chat_id = msg.chat.id
+    me = await app.get_chat_member(chat_id, "me")
 
-@app.on_message(cdz(["banall"])  & (filters.me | filters.user(SUDO_USER))
-     )
-async def ban_all(_,msg):
-    chat_id=msg.chat.id    
-    bot=await app.get_chat_member(chat_id,OWNER_USERNAME)
-    bot_permission=bot.privileges.can_restrict_members==True    
-    if bot_permission:
-        async for member in app.get_chat_members(chat_id):       
-            try:
-                    await app.ban_chat_member(chat_id, member.user.id)
-                    await msg.reply_text(f"𝐖ʟᴄ 𝐁ᴀʙʏ 😘❤️ {member.user.mention}")                    
-            except Exception:
-                pass
-    else:
-        await msg.reply_text(" 𝐁𝐀𝐁𝐘 𝐄𝐒𝐄 𝐌𝐀𝐓 𝐊𝐀𝐑𝐍𝐀 😉❤️ ")  
+    if not me.can_restrict_members:
+        return await msg.reply("𝐁𝐀𝐁𝐘 𝐌𝐄𝐑𝐄 𝐏𝐀𝐒 𝐁𝐀𝐍 𝐊𝐀 𝐏𝐄𝐑𝐌 𝐍𝐇𝐈𝐇 𝐇𝐄 😔")
+
+    banned = 0
+    async for member in app.get_chat_members(chat_id):
+        try:
+            # Na khud ko ban kare, na dusre admins ko
+            if not member.user.is_self and member.status not in ("administrator", "creator"):
+                await app.ban_chat_member(chat_id, member.user.id)
+                banned += 1
+        except Exception:
+            continue
+
+    await msg.reply(f"𝐇𝐨 𝐠𝐚𝐲𝐚 𝐛𝐚𝐛𝐲 🔥 {banned} members ko ban kiya 😎")
                                          
     
 
